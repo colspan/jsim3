@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
+<html>
+	<head>
+		<title>JS IM Test Page</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" href="style/style.css">
+    <style>
+      textarea{
+        width:300px;
+        height:100px;
+      }
+    </style>
+	</head>
+	<body>
+
+<h1>JS IM Test Page</h1>
+&copy; 2005-2008 Colspan All Rights Reserved.
+
+<script language='JavaScript' src='lib/jsim_common.js'></script>
+<script language='JavaScript' src='lib/jsim_keycode.js'></script>
+<script language='JavaScript' src='lib/jsim_caret.js'></script>
+<script language='JavaScript' src='lib/jsim.js'></script>
+
+
+
+<script language='JavaScript' src='lib/johab.js'></script>
+<script language='JavaScript' src='lib/jsim_hangul.js'></script>
+
+
+<h2>한국어</h2>
+johab.js by chiyu
+
+<form name="hangulIM">
+<textarea id="hangul"></textarea><br>
+</form>
+
+<script type="text/javascript">
+hangulIM_Obj = new JS_IM( document.getElementById( 'hangul' ), JS_IM_hangul );
+</script>
+
+<h2>日本語かな漢字変換</h2>
+
+roma.js by http://la.ma.la/
+
+<form name="japanese">
+<textarea id="japaneseime"></textarea>
+</form>
+
+<script language='JavaScript' src='lib/roma.js'></script>
+<script language='JavaScript' src='lib/jsim_vje.js'></script>
+
+<script type="text/javascript">
+hangulIM_Obj = new JS_IM( document.getElementById( 'japaneseime' ), JS_IM_vje );
+</script>
+
+<h2>ひらがな</h2>
+
+roma.js by http://la.ma.la/
+
+<form name="romatest">
+<textarea id="roma"></textarea>
+<input id="romadebug" type="text">
+</form>
+
+<script>
+var JS_IM_roma = {
+  methodName : "roma",
+  version : "20080110",
+  language : "Japanese",
+  author : "Colspan",
+  init : function(){
+    this.romajiBuffer = "";
+  },
+  accept : function(){
+    var outputStr = this.inlineBuffer;
+    this.romajiBuffer = "";
+    this.inlineBuffer = roma2["hiragana"](this.romajiBuffer).toString();
+    document.getElementById('romadebug').value = this.romajiBuffer;
+    return outputStr;
+  },
+  process : function( keyStatus ){
+    var outputStr = "";
+    this.romajiBuffer += keyStatus.inputChar.toLowerCase();
+    this.inlineBuffer = roma2["hiragana"](this.romajiBuffer).toString();
+    document.getElementById('romadebug').value = this.romajiBuffer;
+    return outputStr;
+  },
+  backspace : function(){
+    this.romajiBuffer = this.romajiBuffer.substring(0,this.romajiBuffer.length-1);
+    this.inlineBuffer = roma2["hiragana"](this.romajiBuffer).toString();
+    document.getElementById('romadebug').value = this.romajiBuffer;
+  }
+}
+
+new JS_IM( document.getElementById( 'roma' ), JS_IM_roma );
+
+</script>
+
+<div id="debubu"></div>
+
+<h2>アイヌ</h2>
+
+<form name="aynu">
+<textarea id="JSIM_aynu"></textarea>
+</form>
+
+<script language='JavaScript' src='lib/jsim_aynu.js'></script>
+<script>
+var JS_IM_aynu = {
+  methodName : "aynu",
+  version : "20080123",
+  language : "Aynu",
+  author : "Colspan",
+  init : function(){
+    globalReplacethis = new RegExp("","g");
+    this.isUnicode = true;
+    this.isAscii = false;
+  },
+  accept : function(){
+    var outputStr = this.inlineBuffer;
+    this.romajiBuffer = "";
+    this.inlineBuffer = roma2["hiragana"](this.romajiBuffer).toString();
+    return outputStr;
+  },
+  process : function( keyStatus ){
+    var outputStr = "";
+
+    mykey = keyStatus.inputChar.toLowerCase();
+    mytext = this.inlineBuffer;
+
+    if(globalKakuteiStr + globalKouhoStr != mytext) {
+      globalKakuteiStr = mytext;
+      globalKouhoStr = globalKouhoKeys = "";
+    }
+
+    mykey = keyTranslate(mykey);
+
+    globalUnicodeStrPlusKey(mykey);
+
+    this.inlineBuffer = globalKakuteiStr + globalKouhoStr;
+
+/*    if( this.inlineBuffer.length == 2 ){ //文字が確定した
+      outputStr = this.inlineBuffer.substring(0, 1);
+      this.inlineBuffer = this.inlineBuffer.substring(1,2);
+    }*/
+    return outputStr;
+  },
+  backspace : function(){
+    if(globalKouhoKeys.length > 0) {
+      globalKouhoKeys = globalKouhoKeys.substring(0, globalKouhoKeys.length - 1);
+      globalKouhoStr = fromAsciiToUnicode(globalKouhoKeys);
+    } else {
+      globalKakuteiStr = globalKakuteiStr.substring(0, globalKakuteiStr.length - 1);
+    }
+  }
+}
+
+new JS_IM( document.getElementById( 'JSIM_aynu' ), JS_IM_aynu );
+</script>
+
+
+
+<h2>強制的に大文字</h2>
+
+<form name="hangul">
+<textarea id="JSIMtest"></textarea>
+</form>
+
+<script>
+new JS_IM( document.getElementById( 'JSIMtest' ), JS_IM_toUpperCase );
+</script>
+
+
+
+</body>
+</html>
+
