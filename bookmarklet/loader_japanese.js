@@ -43,7 +43,7 @@ if( typeof( JS_IM_Core_Loaded ) == 'undefined' ){
 	}
 	
 	function JS_IM_credit_create(){
-		var url = "http://colspan.net/japaneseime/credit.html";
+		var url = "http://colspan.net/japaneseime/credit_jp.html";
 		var c = document.createElement('iframe');
 		c.id = "japanese_ime_credit";
 		c.style.border = "solid 1px #808080";

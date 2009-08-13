@@ -59,7 +59,7 @@ if( typeof( JS_IM_Core_Loaded ) == 'undefined' ){
 
 
 	JS_IM_URL_Prefix = 'http://colspan.net/hangulime/';
-	JS_IM_URL_Prefix = './';
+//	JS_IM_URL_Prefix = './';
 
 	JS_IM_Core_Loaded = true;
 
