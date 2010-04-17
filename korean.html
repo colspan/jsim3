@@ -59,8 +59,9 @@ Javascript Korean IME / 한글입력기
 </select>
 </form>
 
-<form name="hangul">
-<textarea id="hangulime"></textarea>
+<form name="imeForm" onsubmit="return false;">
+<textarea id="hangulime"></textarea><br />
+<button id="twit_button" onclick="jsIM_Twit('twitter');"><img src="style/twitter.png" width=16 height=16 alt="Twit this on twitter"></button>
 </form>
 
 
@@ -70,10 +71,18 @@ hangulIM_for_search_Obj = new JS_IM( document.getElementById( 'hangulime_for_sea
 hangulIM_adsense_Obj = new JS_IM( document.getElementById( 'hangulIM_adsense' ), JS_IM_hangul );
 function hangulIM_Search(){ // requires hangulIM_for_search_Obj
   var queryWord = hangulIM_for_search_Obj.imeBox.value;
-  var baseUrl = $( 'engineList' ).value;
+  var baseUrl = document.getElementById( 'engineList' ).value;
   var url = baseUrl + encodeURIComponent( queryWord );
   window.open( url, '_blank' );
 }
+
+function jsIM_Twit(service_name){
+	var statusWord = hangulIM_Obj.imeBox.value;
+	var baseUrl = "http://twitter.com/?status=";
+	var url = baseUrl + encodeURIComponent( statusWord );
+	window.open( url, "_blank" );
+}
+
 </script>
 
 
